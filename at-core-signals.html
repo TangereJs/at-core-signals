@@ -27,7 +27,7 @@ elements will receive the event, regardless of where they are in DOM.
     attached: function() {
       signals.push(this);
     },
-    removed: function() {
+    detached: function() {
       var i = signals.indexOf(this);
       if (i >= 0) {
         signals.splice(i, 1);
