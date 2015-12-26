@@ -38,13 +38,22 @@ elements will receive the event, regardless of where they are in DOM.
   // private shared database
   var signals = [];
 
+  // private busy state
+  var busyCntr = 0;
+
   // signal dispatcher
-  Polymer.signal = function(name, data) {
+  Polymer.signal = function (name, data) {
+
+    // maintain busy state counter here, to maintain state even when at-core-busy is not yet ready 
+    if (name == "busy-start") data = { busy: ++busyCntr };
+    if (name == "busy-end") data = { busy: --busyCntr };
+
     // create non bubbling named-signal event
     var signal = new CustomEvent(name, {
       bubbles: false,
       detail: data
     });
+
     // dispatch named-signal to all 'signals' instances,
     // only interested listeners will react
     signals.forEach(function(s) {

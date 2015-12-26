@@ -1,6 +1,7 @@
 {
   "name": "at-core-signals",
   "private": true,
+  "version": "1.0.0.49",
   "dependencies": {
     "polymer": "Polymer/polymer#0.8-preview"
   }
