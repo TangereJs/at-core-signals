@@ -9,59 +9,79 @@ a parent element to mediate communication instead.
 Use Polymer.signal to send a signal <name> with an optional detail object.
 
     Polymer.signal('before-logout', { userid: 4});
-    
-To receive signals, add a at-core-signals element and either listen for `signal-<name>` 
+
+To receive signals, add a at-core-signals element and either listen for `signal-<name>`
 event on a the `at-core-signals` element.
 
   <at-core-signals on-signal-before-logout="prepareLogout">
 
-You can fire a signal event from anywhere, and all `at-core-signals` 
+You can fire a signal event from anywhere, and all `at-core-signals`
 elements will receive the event, regardless of where they are in DOM.
 -->
 
 <script>
-(function(){
-  
-  Polymer({
-    is: 'at-core-signals',
-    attached: function() {
-      signals.push(this);
-    },
-    detached: function() {
-      var i = signals.indexOf(this);
-      if (i >= 0) {
-        signals.splice(i, 1);
+  (function () {
+
+    Polymer({
+      is: 'at-core-signals',
+      attached: function () {
+        signals.push(this);
+      },
+      detached: function () {
+        var i = signals.indexOf(this);
+        if (i >= 0) {
+          signals.splice(i, 1);
+        }
       }
+    });
+
+    // private shared database
+    var signals = [];
+
+    // private busy state
+    var busyState = {
+      cntr: 0,
+      async: false
     }
-  });
 
-  // private shared database
-  var signals = [];
+    // signal dispatcher
+    Polymer.signal = function (name, data) {
 
-  // private busy state
-  var busyCntr = 0;
+      // maintain busy state counter here, to maintain state even when at-core-busy is not yet ready
+      if (name == "busy-start") {
+        busyState.cntr++;
+        data = { busy: (busyState.cntr>0 || busy.async) };        
+      }
 
-  // signal dispatcher
-  Polymer.signal = function (name, data) {
+      if (name == "busy-start-async") {
+        busyState.async = true;
+        data = { busy: (busyState.cntr>0 || busy.async) };
+      }
 
-    // maintain busy state counter here, to maintain state even when at-core-busy is not yet ready 
-    if (name == "busy-start") data = { busy: ++busyCntr };
-    if (name == "busy-end") data = { busy: --busyCntr };
+      if (name == "busy-end") {
+        busyState.cntr--;
+        busy.async = false;
+        data = { busy: (busyState.cntr>0 || busy.async) };
+      }
 
-    // create non bubbling named-signal event
-    var signal = new CustomEvent(name, {
-      bubbles: false,
-      detail: data
-    });
+      if (name == "busy-end-async") {        
+        busy.async = false;
+        data = { busy: (busyState.cntr>0 || busy.async) };
+      }
 
-    // dispatch named-signal to all 'signals' instances,
-    // only interested listeners will react
-    signals.forEach(function(s) {
-      s.dispatchEvent(signal);
-    });
-  }
+      // create non bubbling named-signal event
+      var signal = new CustomEvent(name, {
+        bubbles: false,
+        detail: data
+      });
 
-  
-})();
+      // dispatch named-signal to all 'signals' instances,
+      // only interested listeners will react
+      signals.forEach(function (s) {
+        s.dispatchEvent(signal);
+      });
+    }
+
+
+  })();
 </script>
-
