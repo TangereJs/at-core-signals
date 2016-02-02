@@ -50,23 +50,25 @@ elements will receive the event, regardless of where they are in DOM.
       // maintain busy state counter here, to maintain state even when at-core-busy is not yet ready
       if (name == "busy-start") {
         busyState.cntr++;
-        data = { busy: (busyState.cntr>0 || busy.async) };        
+        data = { busy: (busyState.cntr > 0 || busyState.async) };
       }
 
       if (name == "busy-start-async") {
+        name = "busy-start";
         busyState.async = true;
-        data = { busy: (busyState.cntr>0 || busy.async) };
+        data = { busy: (busyState.cntr > 0 || busyState.async) };
       }
 
       if (name == "busy-end") {
         busyState.cntr--;
-        busy.async = false;
-        data = { busy: (busyState.cntr>0 || busy.async) };
+        busyState.async = false;
+        data = { busy: (busyState.cntr > 0 || busyState.async) };
       }
 
-      if (name == "busy-end-async") {        
-        busy.async = false;
-        data = { busy: (busyState.cntr>0 || busy.async) };
+      if (name == "busy-end-async") {
+        name = "busy-end";
+        busyState.async = false;
+        data = { busy: (busyState.cntr > 0 || busyState.async) };
       }
 
       // create non bubbling named-signal event
