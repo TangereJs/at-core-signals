@@ -1,6 +1,5 @@
+<link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="at-core-signals.html">
-
-
 
 <dom-module id="my-element">
   <template>
@@ -11,7 +10,7 @@
 <script>
   Polymer({
     is: 'my-element',
-    attached: function () {      
+    attached: function () {
       Polymer.signal('foo', {
         data: "Foo!"
       });
@@ -29,7 +28,7 @@
 
 <script>
   Polymer({
-    is:'my-app', 
+    is:'my-app',
     fooSignal: function (e) {
       this.innerHTML += '<br>[my-app] got a [' + e.type + '] signal<br>';
     }
