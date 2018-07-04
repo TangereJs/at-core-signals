@@ -22,6 +22,9 @@ elements will receive the event, regardless of where they are in DOM.
 <script>
   (function () {
 
+    // private shared database
+    var signals = [];
+
     Polymer({
       is: 'at-core-signals',
       attached: function () {
@@ -34,9 +37,6 @@ elements will receive the event, regardless of where they are in DOM.
         }
       }
     });
-
-    // private shared database
-    var signals = [];
 
     // private busy state
     var busyState = {
