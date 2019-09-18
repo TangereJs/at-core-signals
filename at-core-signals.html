@@ -71,21 +71,11 @@ elements will receive the event, regardless of where they are in DOM.
         data = { busy: (busyState.cntr > 0 || busyState.async) };
       }
 
-      // create non bubbling named-signal event
-      // var signal = new CustomEvent(name, {
-      //   bubbles: false,
-      //   detail: data
-      // });
 
       // dispatch named-signal to all 'signals' instances,
       // only interested listeners will react
-      signals.forEach(function (s) {
+      signals.forEach(function (s) {        
         
-        // POLYMER 2.X compatibility note
-        // FF 61 compatibility with Polymer 2.x; doesn't break Chrome and Edge and doesn't break Polymer 1
-        // I do not understand what FF is doing with events, but if one and the same is used multiple times /App doesn't start
-        // When a new event is created for each s variable, /App starts
-
         // create non bubbling named-signal event
         var signal = new CustomEvent(name, {
           bubbles: false,
