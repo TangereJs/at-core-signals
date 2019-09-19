@@ -46,7 +46,7 @@ elements will receive the event, regardless of where they are in DOM.
 
     Polymer.signalAsync = function (name, data) {
 
-      setTimeout(function (name, date) {
+      setTimeout(function () {       
         Polymer.signal(name, data);
       }.bind(this), 10);
 
