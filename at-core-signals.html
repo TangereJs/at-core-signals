@@ -44,6 +44,14 @@ elements will receive the event, regardless of where they are in DOM.
       async: false
     }
 
+    Polymer.signalAsync = function (name, data) {
+
+      setTimeout(function (name, date) {
+        Polymer.signal(name, data);
+      }.bind(this), 10);
+
+    }
+
     // signal dispatcher
     Polymer.signal = function (name, data) {
 

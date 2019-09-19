@@ -1,7 +1,7 @@
 {
   "name": "at-core-signals",
   "private": true,
-  "version": "1.0.0.79",
+  "version": "1.0.0.80",
   "dependencies": {
     "tangere": "TangereJs/tangere#master"
   }
