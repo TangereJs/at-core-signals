@@ -46,9 +46,9 @@ elements will receive the event, regardless of where they are in DOM.
 
     Polymer.signalAsync = function (name, data) {
 
-      setTimeout(function () {       
+     Tangere.asyncQueue.add(function () {       
         Polymer.signal(name, data);
-      }.bind(this), 10);
+      }, this);
 
     }
 
