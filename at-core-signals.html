@@ -44,12 +44,17 @@ elements will receive the event, regardless of where they are in DOM.
       async: false
     }
 
-    Polymer.signalAsync = function (name, data) {
+    Polymer.signalAsync = function (name, arg1, arg2) {
 
-     Tangere.asyncQueue.add(function () {       
-        Polymer.signal(name, data);
-      }, this);
-
+      if (!arg2) {
+        Tangere.asyncQueue.add(name, function () {
+          Polymer.signal(name, arg1);
+        }, this);
+      } else {
+        Tangere.asyncQueue.add(name + " " + arg1, function () {
+          Polymer.signal(name, arg2);
+        }, this);
+      }
     }
 
     // signal dispatcher
